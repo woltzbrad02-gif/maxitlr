@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max it - Application Received</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+         :root {
+            --orange-primary: #FF7900;
+            --success-green: #22c55e;
+            --text-dark: #1a1a1a;
+            --text-grey: #6b7280;
+            --bg-light: #f9fafb;
+            --border-color: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #e5e5ea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            max-height: 850px;
+            background-color: #ffffff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        @media (min-width: 401px) {
+            .app-container {
+                height: 90vh;
+                border-radius: 40px;
+                border: 8px solid #000;
+                overflow: hidden;
+            }
+        }
+        /* Header */
+        
+        .app-header {
+            background-color: var(--orange-primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo strong {
+            font-weight: 800;
+        }
+        /* Content Area */
+        
+        .content-area {
+            padding: 30px 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+        /* Success Header Graphic */
+        
+        .success-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            background-color: #dcfce7;
+            color: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin: 0 auto 15px;
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .success-header h2 {
+            color: var(--text-dark);
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .success-header p {
+            color: var(--text-grey);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        /* Receipt Card */
+        
+        .receipt-card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .receipt-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .receipt-label {
+            color: var(--text-grey);
+        }
+        
+        .receipt-value {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .ref-box {
+            background-color: #fff;
+            border: 1px dashed var(--orange-primary);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ref-number {
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--orange-primary);
+        }
+        
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--text-grey);
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        
+        .copy-btn:hover {
+            color: var(--orange-primary);
+        }
+        /* Tracking Timeline */
+        
+        .timeline {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 25px;
+            bottom: -20px;
+            width: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+        
+        .node {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            z-index: 2;
+        }
+        
+        .node.completed {
+            background-color: var(--success-green);
+            color: white;
+        }
+        
+        .node.active {
+            background-color: var(--orange-primary);
+            color: white;
+            box-shadow: 0 0 0 4px #fff2e5;
+        }
+        
+        .node.pending {
+            background-color: var(--border-color);
+            color: transparent;
+        }
+        
+        .timeline-content h4 {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-content p {
+            font-size: 12px;
+            color: var(--text-grey);
+        }
+        /* Action Button */
+        
+        .btn-home {
+            width: 100%;
+            background-color: var(--orange-primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: auto;
+        }
+        
+        .btn-home:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <header class="app-header">
+            <div class="logo"><strong>Max</strong>It</div>
+        </header>
+
+        <div class="content-area">
+
+            <div class="success-header">
+                <div class="icon-circle"><i class="fa-solid fa-check"></i></div>
+                <h2>Application Received!</h2>
+                <p>We have successfully received your loan request. Our team is currently reviewing your details.</p>
+            </div>
+
+            <div class="receipt-card">
+                <div class="receipt-row">
+                    <span class="receipt-label">Date:</span>
+                    <span class="receipt-value" id="currentDate">--</span>
+                </div>
+                <div class="receipt-row">
+                    <span class="receipt-label">Requested Amount:</span>
+                    <span class="receipt-value" id="requestedAmountDisplay">250,000 FCFA</span>
+                </div>
+
+                <div class="ref-box">
+                    <div>
+                        <div style="font-size: 11px; color: #888; margin-bottom: 2px; text-align: left;">Reference ID</div>
+                        <div class="ref-number" id="refNum">MAX-8472910</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyRef()"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="node completed"><i class="fa-solid fa-check"></i></div>
+                    <div class="timeline-content">
+                        <h4>Application Submitted</h4>
+                        <p>Your details have been securely sent.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="node active"><i class="fa-solid fa-spinner fa-spin"></i></div>
+                    <div class="timeline-content">
+                        <h4>Under Review</h4>
+                        <p>We are verifying your profile. This usually takes less than 24 hours.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="node pending"></div>
+                    <div class="timeline-content">
+                        <h4>Funds Disbursed</h4>
+                        <p>Money sent to your Orange Money wallet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-home" onclick="window.location.href='index.html'">Back to Dashboard</button>
+
+        </div>
+    </div>
+
+    <script>
+        const dateOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+
+        const savedAmount = sessionStorage.getItem('loanAmount');
+        if (savedAmount) {
+            const formattedAmount = parseInt(savedAmount, 10).toLocaleString();
+            document.getElementById('requestedAmountDisplay').textContent = formattedAmount + ' FCFA';
+        }
+
+        function copyRef() {
+            const refText = document.getElementById('refNum').innerText;
+            navigator.clipboard.writeText(refText).then(() => {
+                const copyBtn = document.querySelector('.copy-btn');
+                copyBtn.innerHTML = '<i class="fa-solid fa-check" style="color: var(--success-green);"></i>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max it - Fast & Secure Loans</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+         :root {
+            --orange: #FF7900;
+            --orange-hover: #e66a00;
+            --dark: #1a1a1a;
+            --text-gray: #4a5568;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f4f8;
+            color: var(--dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Animated Background Orbs */
+        
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 121, 0, 0.4);
+            top: -100px;
+            left: -100px;
+        }
+        
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(0, 150, 255, 0.3);
+            bottom: 10%;
+            right: 5%;
+            animation-delay: -5s;
+        }
+        
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 200, 0, 0.3);
+            top: 40%;
+            left: 30%;
+            animation-duration: 20s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(50px, 50px) scale(1.1);
+            }
+            100% {
+                transform: translate(-30px, 80px) scale(0.9);
+            }
+        }
+        /* Navigation */
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            background-color: var(--orange);
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            display: inline-block;
+        }
+        
+        .logo .max {
+            color: white;
+        }
+        
+        .logo .it {
+            color: black;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+        /* Hero Section */
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 5%;
+            min-height: 80vh;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content h1 span {
+            color: var(--orange);
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .badge {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .badge i {
+            color: var(--orange);
+        }
+        /* Glassmorphic Calculator */
+        
+        .calculator-wrapper {
+            flex: 1;
+            min-width: 350px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .calc-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .calc-header h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .calc-header p {
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+        
+        .input-group {
+            margin-bottom: 30px;
+        }
+        
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .label-row label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+        
+        .label-row span {
+            font-size: 18px;
+            color: var(--orange);
+            font-weight: 800;
+        }
+        
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: var(--orange);
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 8px rgba(255, 121, 0, 0.5);
+            border: 2px solid white;
+        }
+        
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        
+        .slider-limits {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+        }
+        
+        .result-box {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border: 1px solid white;
+        }
+        
+        .result-box label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+        
+        .result-box .monthly-payment {
+            font-size: 24px;
+            color: var(--orange);
+            font-weight: 800;
+        }
+        
+        .btn-apply {
+            width: 100%;
+            background-color: var(--orange);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 121, 0, 0.3);
+        }
+        
+        .btn-apply:hover {
+            background-color: var(--orange-hover);
+            box-shadow: 0 6px 20px rgba(255, 121, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        /* About Section */
+        
+        .about {
+            padding: 80px 5%;
+            text-align: center;
+        }
+        
+        .about h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 40px 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--orange);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+        /* Footer */
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 5% 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+        
+        .footer-col h4 {
+            margin-bottom: 20px;
+            color: var(--orange);
+        }
+        
+        .footer-col a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        
+        .footer-col a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            color: #888;
+            font-size: 14px;
+        }
+        /* Responsive */
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .badges {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <nav>
+        <div class="logo">
+            <span class="max">Max</span><span class="it">it</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="badges">
+                <div class="badge"><i class="fa-solid fa-bolt"></i> Instant Approval</div>
+                <div class="badge"><i class="fa-solid fa-shield-halved"></i> Bank-level Security</div>
+            </div>
+            <h1>Empower Your Dreams with <span>Max it Loans</span></h1>
+            <p>Get the funds you need instantly directly into your Orange Money wallet. No collateral required, just fair rates and flexible repayment terms.</p>
+        </div>
+
+        <div class="calculator-wrapper">
+            <div class="glass-card">
+                <div class="calc-header">
+                    <h2>Loan Calculator</h2>
+                    <p>Customize your loan to fit your needs</p>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Loan Amount</label>
+                        <span id="amount-display">250,000 FCFA</span>
+                    </div>
+                    <input type="range" id="amount-slider" min="10000" max="2000000" step="5000" value="250000">
+                    <div class="slider-limits">
+                        <span>10,000 FCFA</span>
+                        <span>2,000,000 FCFA</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Loan Term</label>
+                        <span id="term-display">12 months</span>
+                    </div>
+                    <input type="range" id="term-slider" min="3" max="36" step="1" value="12">
+                    <div class="slider-limits">
+                        <span>3 months</span>
+                        <span>36 months</span>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <label>Monthly Payment</label>
+                    <div class="monthly-payment" id="payment-display">22,933 FCFA</div>
+                </div>
+
+                <button class="btn-apply">APPLY NOW <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2>Why Choose Max it?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fa-solid fa-stopwatch"></i>
+                <h3>Fast Disbursements</h3>
+                <p>Once approved, your loan is credited instantly to your connected Orange Money account. No waiting in lines.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-percent"></i>
+                <h3>Low Interest Rates</h3>
+                <p>We offer highly competitive rates starting from 18% annually, ensuring you only pay for what you truly need.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <h3>100% Digital</h3>
+                <p>Manage your entire loan lifecycle right from your phone. Apply, track, and repay effortlessly via the app.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;">
+                    <span class="max">Max</span><span class="it">it</span>
+                </div>
+                <p style="color: #888; max-width: 250px;">The super-app designed to simplify your financial life in Cameroon.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Orange Money</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Loan Agreement</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Max it Cameroon. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const amountSlider = document.getElementById('amount-slider');
+        const termSlider = document.getElementById('term-slider');
+        const amountDisplay = document.getElementById('amount-display');
+        const termDisplay = document.getElementById('term-display');
+        const paymentDisplay = document.getElementById('payment-display');
+
+        const ANNUAL_INTEREST_RATE = 0.18;
+
+        function calculateEMI() {
+            const principal = parseFloat(amountSlider.value);
+            const months = parseFloat(termSlider.value);
+            const r = ANNUAL_INTEREST_RATE / 12;
+            const emi = (principal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+
+            amountDisplay.textContent = principal.toLocaleString() + ' FCFA';
+            termDisplay.textContent = months + ' months';
+            paymentDisplay.textContent = Math.round(emi).toLocaleString() + ' FCFA';
+        }
+
+        amountSlider.addEventListener('input', calculateEMI);
+        termSlider.addEventListener('input', calculateEMI);
+        calculateEMI();
+
+        const applyBtn = document.querySelector('.btn-apply');
+
+        applyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            this.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            this.style.opacity = '0.8';
+            this.style.cursor = 'not-allowed';
+
+            setTimeout(() => {
+                window.location.href = 'apply.html';
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

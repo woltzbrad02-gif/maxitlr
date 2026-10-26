@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max it - Application Submitted</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+         :root {
+            --success-green: #22c55e;
+            --dark: #1e293b;
+            --text-main: #64748b;
+            --border-light: #e2e8f0;
+            --bg-light: #f8fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f4f8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Subtle Animated Background Orbs */
+        
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 15s infinite alternate ease-in-out;
+            opacity: 0.5;
+        }
+        
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 121, 0, 0.15);
+            top: -10%;
+            left: -5%;
+        }
+        
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(34, 197, 94, 0.15);
+            bottom: -5%;
+            right: -5%;
+            animation-delay: -5s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+        }
+        /* Main Success Card */
+        
+        .success-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            padding: 50px 30px 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Floating Toast Notification */
+        
+        .toast {
+            position: absolute;
+            top: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dark);
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3);
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            animation: dropDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+        
+        @keyframes dropDown {
+            from {
+                opacity: 0;
+                top: -40px;
+            }
+            to {
+                opacity: 1;
+                top: -24px;
+            }
+        }
+        
+        .toast-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background-color: var(--success-green);
+            border-radius: 50%;
+            font-size: 10px;
+        }
+        /* Success Icon */
+        
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            background-color: var(--success-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.1s;
+            transform: scale(0);
+        }
+        
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .icon-container i {
+            color: white;
+            font-size: 40px;
+        }
+        /* Typography */
+        
+        h2 {
+            color: var(--success-green);
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: var(--text-main);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        /* Actions */
+        
+        .redirect-box {
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            color: #0ea5e9;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+        
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .btn-outline {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--bg-light);
+            border-color: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="success-card">
+
+        <div class="toast">
+            <div class="toast-icon"><i class="fa-solid fa-check"></i></div>
+            <span>🎉 Application submitted successfully!</span>
+        </div>
+
+        <div class="icon-container">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <h2>Loan Application<br>Submitted</h2>
+
+        <p>Your loan application has been submitted. Please wait for approval.</p>
+        <p>You will receive a confirmation message. For now, proceed to Max It.</p>
+
+        <div class="redirect-box">
+            <i class="fa-solid fa-circle-notch spinner"></i>
+            <span>Redirecting to Max It login in <span id="countdown">4</span>s...</span>
+        </div>
+
+        <button class="btn-outline" onclick="goToHome()">Go to Login Now</button>
+    </div>
+
+    <script>
+        const destinationURL = 'login.html';
+
+        let timeLeft = 4;
+        const countdownElement = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownElement.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = destinationURL;
+            }
+        }, 1000);
+
+        function goToHome() {
+            clearInterval(timer);
+            window.location.href = destinationURL;
+        }
+    </script>
+</body>
+
+</html>
