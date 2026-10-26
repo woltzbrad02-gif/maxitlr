@@ -33,7 +33,6 @@
             overflow-x: hidden;
             position: relative;
         }
-        /* Animated Background Orbs */
         
         .orb {
             position: absolute;
@@ -80,7 +79,6 @@
                 transform: translate(-30px, 80px) scale(0.9);
             }
         }
-        /* Navigation */
         
         nav {
             display: flex;
@@ -114,6 +112,12 @@
             color: black;
         }
         
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
         .nav-links {
             display: flex;
             gap: 30px;
@@ -129,7 +133,16 @@
         .nav-links a:hover {
             color: var(--orange);
         }
-        /* Hero Section */
+        
+        .country-selector-nav {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
         
         .hero {
             display: flex;
@@ -184,7 +197,6 @@
         .badge i {
             color: var(--orange);
         }
-        /* Glassmorphic Calculator */
         
         .calculator-wrapper {
             flex: 1;
@@ -324,7 +336,6 @@
             box-shadow: 0 6px 20px rgba(255, 121, 0, 0.4);
             transform: translateY(-2px);
         }
-        /* About Section */
         
         .about {
             padding: 80px 5%;
@@ -373,7 +384,6 @@
             color: var(--text-gray);
             line-height: 1.6;
         }
-        /* Footer */
         
         footer {
             background: var(--dark);
@@ -425,7 +435,6 @@
             color: #888;
             font-size: 14px;
         }
-        /* Responsive */
         
         @media (max-width: 768px) {
             .hero-content h1 {
@@ -451,11 +460,17 @@
         <div class="logo">
             <span class="max">Max</span><span class="it">it</span>
         </div>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#faq">FAQ</a>
-            <a href="#contact">Contact</a>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <select class="country-selector-nav" id="countrySelect" onchange="changeCountry()">
+                <option value="LR">Liberia (LRD)</option>
+                <option value="CM" selected>Cameroon (FCFA)</option>
+            </select>
         </div>
     </nav>
 
@@ -483,8 +498,8 @@
                     </div>
                     <input type="range" id="amount-slider" min="10000" max="2000000" step="5000" value="250000">
                     <div class="slider-limits">
-                        <span>10,000 FCFA</span>
-                        <span>2,000,000 FCFA</span>
+                        <span id="min-amount-label">10,000 FCFA</span>
+                        <span id="max-amount-label">2,000,000 FCFA</span>
                     </div>
                 </div>
 
@@ -537,7 +552,7 @@
                 <div class="logo" style="margin-bottom: 20px;">
                     <span class="max">Max</span><span class="it">it</span>
                 </div>
-                <p style="color: #888; max-width: 250px;">The super-app designed to simplify your financial life in Cameroon.</p>
+                <p style="color: #888; max-width: 250px;" id="footer-desc">The super-app designed to simplify your financial life in Cameroon.</p>
                 <div class="social-icons">
                     <a href="#"><i class="fa-brands fa-facebook"></i></a>
                     <a href="#"><i class="fa-brands fa-twitter"></i></a>
@@ -557,7 +572,7 @@
                 <a href="#">Loan Agreement</a>
             </div>
         </div>
-        <div class="copyright">
+        <div class="copyright" id="copyright-text">
             &copy; 2026 Max it Cameroon. All rights reserved.
         </div>
     </footer>
@@ -568,18 +583,49 @@
         const amountDisplay = document.getElementById('amount-display');
         const termDisplay = document.getElementById('term-display');
         const paymentDisplay = document.getElementById('payment-display');
+        const countrySelect = document.getElementById('countrySelect');
+        const minAmountLabel = document.getElementById('min-amount-label');
+        const maxAmountLabel = document.getElementById('max-amount-label');
+        const footerDesc = document.getElementById('footer-desc');
+        const copyrightText = document.getElementById('copyright-text');
 
         const ANNUAL_INTEREST_RATE = 0.18;
 
+        function changeCountry() {
+            const country = countrySelect.value;
+            if (country === 'LR') {
+                amountSlider.min = 5000;
+                amountSlider.max = 500000;
+                amountSlider.step = 2500;
+                amountSlider.value = 50000;
+                minAmountLabel.textContent = '5,000 LRD';
+                maxAmountLabel.textContent = '500,000 LRD';
+                footerDesc.textContent = 'The super-app designed to simplify your financial life in Liberia.';
+                copyrightText.innerHTML = '&copy; 2026 Max it Liberia. All rights reserved.';
+            } else {
+                amountSlider.min = 10000;
+                amountSlider.max = 2000000;
+                amountSlider.step = 5000;
+                amountSlider.value = 250000;
+                minAmountLabel.textContent = '10,000 FCFA';
+                maxAmountLabel.textContent = '2,000,000 FCFA';
+                footerDesc.textContent = 'The super-app designed to simplify your financial life in Cameroon.';
+                copyrightText.innerHTML = '&copy; 2026 Max it Cameroon. All rights reserved.';
+            }
+            calculateEMI();
+        }
+
         function calculateEMI() {
+            const country = countrySelect.value;
+            const currency = country === 'LR' ? 'LRD' : 'FCFA';
             const principal = parseFloat(amountSlider.value);
             const months = parseFloat(termSlider.value);
             const r = ANNUAL_INTEREST_RATE / 12;
             const emi = (principal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
 
-            amountDisplay.textContent = principal.toLocaleString() + ' FCFA';
+            amountDisplay.textContent = principal.toLocaleString() + ' ' + currency;
             termDisplay.textContent = months + ' months';
-            paymentDisplay.textContent = Math.round(emi).toLocaleString() + ' FCFA';
+            paymentDisplay.textContent = Math.round(emi).toLocaleString() + ' ' + currency;
         }
 
         amountSlider.addEventListener('input', calculateEMI);

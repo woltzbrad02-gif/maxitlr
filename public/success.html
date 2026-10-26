@@ -54,16 +54,14 @@
                 overflow: hidden;
             }
         }
-        /* Header */
         
         .app-header {
             background-color: var(--orange-primary);
             color: white;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            position: relative;
+            padding: 18px 20px;
         }
         
         .logo {
@@ -75,7 +73,22 @@
         .logo strong {
             font-weight: 800;
         }
-        /* Content Area */
+        
+        .country-selector-header {
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .country-selector-header option {
+            color: var(--text-dark);
+        }
         
         .content-area {
             padding: 30px 25px;
@@ -85,7 +98,6 @@
             align-items: center;
             overflow-y: auto;
         }
-        /* Success Header Graphic */
         
         .success-header {
             text-align: center;
@@ -127,7 +139,6 @@
             font-size: 14px;
             line-height: 1.5;
         }
-        /* Receipt Card */
         
         .receipt-card {
             background-color: var(--bg-light);
@@ -189,7 +200,6 @@
         .copy-btn:hover {
             color: var(--orange-primary);
         }
-        /* Tracking Timeline */
         
         .timeline {
             width: 100%;
@@ -255,7 +265,6 @@
             font-size: 12px;
             color: var(--text-grey);
         }
-        /* Action Button */
         
         .btn-home {
             width: 100%;
@@ -283,6 +292,10 @@
 
         <header class="app-header">
             <div class="logo"><strong>Max</strong>It</div>
+            <select class="country-selector-header" id="countrySelect" onchange="updateCountrySettings()">
+                <option value="CM" selected>Cameroon (FCFA)</option>
+                <option value="LR">Liberia (LRD)</option>
+            </select>
         </header>
 
         <div class="content-area">
@@ -331,7 +344,7 @@
                     <div class="node pending"></div>
                     <div class="timeline-content">
                         <h4>Funds Disbursed</h4>
-                        <p>Money sent to your Orange Money wallet.</p>
+                        <p id="disburseText">Money sent to your Orange Money wallet.</p>
                     </div>
                 </div>
             </div>
@@ -342,18 +355,36 @@
     </div>
 
     <script>
+        const countrySelect = document.getElementById('countrySelect');
+        const savedCountry = sessionStorage.getItem('selectedCountry');
+
+        if (savedCountry) {
+            countrySelect.value = savedCountry;
+        }
+
+        function updateCountrySettings() {
+            const country = countrySelect.value;
+            sessionStorage.setItem('selectedCountry', country);
+
+            const currency = country === 'LR' ? 'LRD' : 'FCFA';
+            const savedAmount = sessionStorage.getItem('loanAmount');
+
+            if (savedAmount) {
+                const formattedAmount = parseInt(savedAmount, 10).toLocaleString();
+                document.getElementById('requestedAmountDisplay').textContent = formattedAmount + ' ' + currency;
+            } else {
+                document.getElementById('requestedAmountDisplay').textContent = (country === 'LR' ? '50,000 LRD' : '250,000 FCFA');
+            }
+        }
+
+        updateCountrySettings();
+
         const dateOptions = {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         };
         document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
-
-        const savedAmount = sessionStorage.getItem('loanAmount');
-        if (savedAmount) {
-            const formattedAmount = parseInt(savedAmount, 10).toLocaleString();
-            document.getElementById('requestedAmountDisplay').textContent = formattedAmount + ' FCFA';
-        }
 
         function copyRef() {
             const refText = document.getElementById('refNum').innerText;
