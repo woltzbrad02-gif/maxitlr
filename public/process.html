@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max it - Application Submitted</title>
+    <title>Max it Liberia - Application Submitted</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,22 +34,6 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
-        }
-        
-        .country-selector-header {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border-light);
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--dark);
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            outline: none;
-            z-index: 100;
         }
         
         .orb {
@@ -243,11 +227,6 @@
 
 <body>
 
-    <select class="country-selector-header" id="countrySelect" onchange="updateCountrySettings()">
-        <option value="CM" selected>Cameroon (+237)</option>
-        <option value="LR">Liberia (+231)</option>
-    </select>
-
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
 
@@ -265,7 +244,7 @@
         <h2>Loan Application<br>Submitted</h2>
 
         <p>Your loan application has been submitted. Please wait for approval.</p>
-        <p>You will receive a confirmation message. For now, proceed to Max It.</p>
+        <p>You will receive a confirmation message. For now, proceed to Max It Liberia.</p>
 
         <div class="redirect-box">
             <i class="fa-solid fa-circle-notch spinner"></i>
@@ -277,16 +256,6 @@
 
     <script>
         const destinationURL = 'login.html';
-        const countrySelect = document.getElementById('countrySelect');
-        const savedCountry = sessionStorage.getItem('selectedCountry');
-
-        if (savedCountry) {
-            countrySelect.value = savedCountry;
-        }
-
-        function updateCountrySettings() {
-            sessionStorage.setItem('selectedCountry', countrySelect.value);
-        }
 
         let timeLeft = 4;
         const countdownElement = document.getElementById('countdown');

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max it - Secure Loan Application</title>
+    <title>Max it Liberia - Secure Loan Application</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -314,13 +314,6 @@
             opacity: 1;
             transform: translateX(0);
         }
-        
-        .error-msg {
-            color: var(--error-red);
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
     </style>
 </head>
 
@@ -344,13 +337,6 @@
 
             <div class="form-step active" id="step-1">
                 <div class="form-group">
-                    <label>Select Country</label>
-                    <select class="form-control" id="countrySelect" onchange="updateCountrySettings()" required>
-                        <option value="LR" selected>Liberia</option>
-                        <option value="CM">Cameroon</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label>Loan Type</label>
                     <select class="form-control" id="loanType" required>
                         <option value="" disabled selected>Select a loan type...</option>
@@ -362,10 +348,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Loan Amount (<span id="currencyLabel1">LRD</span>)</label>
+                    <label>Loan Amount (LRD)</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-money-bill-wave"></i>
-                        <input type="number" class="form-control" id="loanAmount" placeholder="e.g. 50000" min="5000" max="1000000" required>
+                        <input type="number" class="form-control" id="loanAmount" placeholder="e.g. 50000" min="5000" max="500000" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -413,10 +399,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Mobile Money / Phone Number</label>
+                    <label>Orange Money Phone Number</label>
                     <div class="phone-input-group">
-                        <div class="country-code" id="countryCodeDisplay">+231</div>
-                        <input type="tel" class="form-control" id="phone" placeholder="77123456" maxlength="9" pattern="[0-9]{8,9}" required>
+                        <div class="country-code">+231</div>
+                        <input type="tel" class="form-control" id="phone" placeholder="77123456" maxlength="8" pattern="[0-9]{8}" required>
                     </div>
                 </div>
 
@@ -456,7 +442,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Estimated Monthly Income (<span id="currencyLabel2">LRD</span>)</label>
+                    <label>Estimated Monthly Income (LRD)</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-wallet"></i>
                         <input type="number" class="form-control" id="monthlyIncome" placeholder="e.g. 25000" required>
@@ -495,28 +481,6 @@
     <script>
         const stepTitles = ["Step 1: Loan Details", "Step 2: Personal Info", "Step 3: Financial Profile"];
         const ANNUAL_INTEREST_RATE = 0.18;
-
-        function updateCountrySettings() {
-            const country = document.getElementById('countrySelect').value;
-            const currencyLabel1 = document.getElementById('currencyLabel1');
-            const currencyLabel2 = document.getElementById('currencyLabel2');
-            const countryCodeDisplay = document.getElementById('countryCodeDisplay');
-            const phoneInput = document.getElementById('phone');
-
-            if (country === 'LR') {
-                currencyLabel1.innerText = 'LRD';
-                currencyLabel2.innerText = 'LRD';
-                countryCodeDisplay.innerText = '+231';
-                phoneInput.placeholder = '77123456';
-                phoneInput.maxLength = 8;
-            } else if (country === 'CM') {
-                currencyLabel1.innerText = 'FCFA';
-                currencyLabel2.innerText = 'FCFA';
-                countryCodeDisplay.innerText = '+237';
-                phoneInput.placeholder = '671234567';
-                phoneInput.maxLength = 9;
-            }
-        }
 
         function validateCurrentStep(stepNumber) {
             const currentStep = document.getElementById(`step-${stepNumber}`);
@@ -578,12 +542,12 @@
         }
 
         function populateSummary() {
-            const country = document.getElementById('countrySelect').value;
-            const currency = country === 'LR' ? 'LRD' : 'FCFA';
             const amount = parseFloat(document.getElementById('loanAmount').value);
             const months = parseInt(document.getElementById('loanTerm').value);
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
+
+            sessionStorage.setItem('loanAmount', amount);
 
             let emi = 0;
             if (amount && months) {
@@ -592,9 +556,9 @@
             }
 
             document.getElementById('sum-name').innerText = `${firstName} ${lastName}`;
-            document.getElementById('sum-amount').innerText = `${currency} ${amount.toLocaleString()}`;
+            document.getElementById('sum-amount').innerText = `LRD ${amount.toLocaleString()}`;
             document.getElementById('sum-term').innerText = `${months} Months`;
-            document.getElementById('sum-emi').innerText = `${currency} ${Math.round(emi).toLocaleString()}`;
+            document.getElementById('sum-emi').innerText = `LRD ${Math.round(emi).toLocaleString()}`;
         }
 
         function submitApplication() {

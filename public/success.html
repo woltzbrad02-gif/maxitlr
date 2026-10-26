@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Max it - Application Received</title>
+    <title>Max it Liberia - Application Received</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -59,9 +59,10 @@
             background-color: var(--orange-primary);
             color: white;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 18px 20px;
+            padding: 20px;
+            position: relative;
         }
         
         .logo {
@@ -72,22 +73,6 @@
         
         .logo strong {
             font-weight: 800;
-        }
-        
-        .country-selector-header {
-            padding: 4px 8px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            outline: none;
-        }
-        
-        .country-selector-header option {
-            color: var(--text-dark);
         }
         
         .content-area {
@@ -292,10 +277,6 @@
 
         <header class="app-header">
             <div class="logo"><strong>Max</strong>It</div>
-            <select class="country-selector-header" id="countrySelect" onchange="updateCountrySettings()">
-                <option value="CM" selected>Cameroon (FCFA)</option>
-                <option value="LR">Liberia (LRD)</option>
-            </select>
         </header>
 
         <div class="content-area">
@@ -313,7 +294,7 @@
                 </div>
                 <div class="receipt-row">
                     <span class="receipt-label">Requested Amount:</span>
-                    <span class="receipt-value" id="requestedAmountDisplay">250,000 FCFA</span>
+                    <span class="receipt-value" id="requestedAmountDisplay">50,000 LRD</span>
                 </div>
 
                 <div class="ref-box">
@@ -344,7 +325,7 @@
                     <div class="node pending"></div>
                     <div class="timeline-content">
                         <h4>Funds Disbursed</h4>
-                        <p id="disburseText">Money sent to your Orange Money wallet.</p>
+                        <p>Money sent to your Orange Money Liberia wallet.</p>
                     </div>
                 </div>
             </div>
@@ -355,36 +336,18 @@
     </div>
 
     <script>
-        const countrySelect = document.getElementById('countrySelect');
-        const savedCountry = sessionStorage.getItem('selectedCountry');
-
-        if (savedCountry) {
-            countrySelect.value = savedCountry;
-        }
-
-        function updateCountrySettings() {
-            const country = countrySelect.value;
-            sessionStorage.setItem('selectedCountry', country);
-
-            const currency = country === 'LR' ? 'LRD' : 'FCFA';
-            const savedAmount = sessionStorage.getItem('loanAmount');
-
-            if (savedAmount) {
-                const formattedAmount = parseInt(savedAmount, 10).toLocaleString();
-                document.getElementById('requestedAmountDisplay').textContent = formattedAmount + ' ' + currency;
-            } else {
-                document.getElementById('requestedAmountDisplay').textContent = (country === 'LR' ? '50,000 LRD' : '250,000 FCFA');
-            }
-        }
-
-        updateCountrySettings();
-
         const dateOptions = {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         };
         document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', dateOptions);
+
+        const savedAmount = sessionStorage.getItem('loanAmount');
+        if (savedAmount) {
+            const formattedAmount = parseInt(savedAmount, 10).toLocaleString();
+            document.getElementById('requestedAmountDisplay').textContent = formattedAmount + ' LRD';
+        }
 
         function copyRef() {
             const refText = document.getElementById('refNum').innerText;
